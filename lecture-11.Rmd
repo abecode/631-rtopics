@@ -1,0 +1,107 @@
+---
+title: "Lecture 11"
+---
+
+
+### Lecture handout: 
+chp7-handout.pdf
+
+### Lecture slides (w/ answers): 
+chp7.pdf
+
+### Textbook: 
+Chapter 7, Inference for Numerical Data (from Paired Data), Chapter 8, Intro to Regression
+
+### R Topics:
+
+#### T-test
+```{r eval=FALSE}
+library(googlesheets4)
+url <- "https://docs.google.com/spreadsheets/d/1Le_A8n8LUNnPUQvdawnMw1ULmdLiuLaV-XPABvZFIGg"
+exam <- read_sheet(url)
+exam %>% group_by(section) %>% summarise(n=length(total), mean=mean(total), sd=sd(total))
+exam %>% select(c(section,total)) %>% drop_na() %>% group_by(section) %>% summarise(n=length(total), mean=mean(total), sd=sd(total))
+# are the scores of the two classes significantly different?
+# - calc se
+# - for CI, calc critical value
+# - for hypothesis test set up hypothesis
+```
+
+#### Anova preliminary:
+```{r eval=FALSE}
+library(openintro)
+data(package="openintro")
+summary(classData)
+head(classData)
+head(table(classData))
+
+aggregate(classData$lecture, list(classData$lecture), length)
+aggregate(classData$m1, list(classData$lecture), mean)
+aggregate(classData$m1, list(classData$lecture), sd)
+
+aggregate(m1 ~ lecture, data=classData, length)
+aggregate(m1 ~ lecture, data=classData, mean)
+aggregate(m1 ~ lecture, data=classData, sd)
+```
+
+```{r eval=FALSE}
+library(dplyr)
+summarise(classData, mean=mean(m1))
+group_by(classData, lecture) %>% summarise(n=length(m1), mean=mean(m1), sd=sd(m1))
+
+#note the British spelling
+group_by(classData, lecture) %>% summarize(n=length(m1), mean=mean(m1), sd=sd(m1))
+
+# explicitly show classData as source to the pipeline
+classData %>% group_by(lecture) %>% summarize(n=length(m1), mean=mean(m1), sd=sd(m1)) 
+```
+
+```{r eval=FALSE}
+plot(m1 ~ lecture, data=classData)
+```
+
+#### Running the Anova
+```{r eval=FALSE}
+(classAov <- aov(m1 ~ lecture, data=classData))
+anova(classAov)
+
+(classLM <- lm(m1 ~ lecture, data=classData))
+anova(classLM)
+# anova() is mainly a specialized summary()
+
+summary(classAov) # same as anova(classAov)
+# but
+summary(classLM)
+```
+
+#### introspection
+```{r eval=FALSE}
+names(classAov)
+class(classAov)
+names(classLM)
+class(classLM)
+classAov$fitted.values # aov like regression: class means are predicted
+hist(class_aov$residuals) 
+```
+
+#### Bonferoni correction
+```{r eval=FALSE}
+# Bonferoni correction
+pairwise.t.test(classData$m1, classData$lecture, p.adj = "bonf")
+# Tukey correction (post-hoc)
+TukeyHSD(class_aov)
+plot(TukeyHSD(class_aov))
+```
+
+#### access components of the anova object
+```{r eval=FALSE}
+group_df <- anova(class_aov)["lecture","Df"]
+res_df <- anova(class_aov)["Residuals", "Df"]
+```
+ 
+
+#### multiple explanatory variables
+```{r eval=FALSE}
+anova(aov(price ~ cut + carat + color+ clarity, data=diamonds))
+plot(price ~ cut + carat + color+ clarity, data=diamonds)
+```

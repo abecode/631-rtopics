@@ -1,0 +1,87 @@
+---
+title: "Lecture 8"
+---
+
+###
+Reading: tidy-data.pdf
+
+The goal of reading this paper is
+
+* To become familiar with motivation behind the Tidy Data a.k.a. Tidyverse approach to R.  There is a small amount of R code in this paper, but a more comprehensive source of Tidyverse R examples is in the book R For Data Science https://r4ds.had.co.nz/, in particular this chapter.   https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/ A briefer intro can be found at https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/ 
+* To expose you to reading an academic-type paper (in the software genre).  These papers often go through many revisions and make a lot of efforts to be thorough.  However, when you read an academic paper at first, try not to get stuck on any specific details.  If something is unfamiliar you can note it (underline/highlight) and keep reading.  
+
+### Lecture handout: 
+chp5-handout_r1.pdf
+
+### Textbook: 
+Chapter 5, Foundations for Inference
+
+### Lecture slides (w/ answers): chp5_r1.pdf
+
+### Midterm Results: 
+
+https://docs.google.com/spreadsheets/d/1Le_A8n8LUNnPUQvdawnMw1ULmdLiuLaV-XPABvZFIGg/edit?usp=sharing 
+
+
+631-wed-midterm-hist.png
+
+### R Topics:
+
+#### loading csv data from midterm
+readr: 
+```{r eval=FALSE} 
+library(readr)
+midterm <- read_csv("631_f19_public - Sheet1_r1.csv")
+```
+
+base-r: (no library needed) 
+```{r eval=FALSE} 
+midterm2 <- read.csv("631_f19_public - Sheet1_r1.csv")
+!is.na(midterm$sequence)
+midterm$total[!is.na(midterm$sequence)]
+hist(midterm$total[!is.na(midterm$sequence)], main="Histogram of 631, Wednesday", xlab="score including ec")
+mean(midterm$total[!is.na(midterm$sequence)]);
+sd(midterm$total[!is.na(midterm$sequence)])
+median(midterm$total[!is.na(midterm$sequence)])
+```
+
+#### from paper
+``` dir, basename```
+```ldply```
+
+plyr vs base-r apply
+
+```{r eval=FALSE}
+install.packages("tidyverse")
+```
+if we get to it: ```plyr```
+https://seananderson.ca/courses/12-plyr/plyr_2012.pdf 
+https://stackoverflow.com/questions/tagged/plyr
+
+#### comments
+
+from Jessie Zheng:
+
+Really like the paper about tidy data. I was wondering the differences between data cleaning and  data tidying. Here are some useful information about it, in case anyone would like to know:)
+
+https://www.idashboards.com/blog/2018/11/14/data-cleaning-vs-data-tidying/ 
+
+https://www.measureevaluation.org/resources/newsroom/blogs/tidy-data-and-how-to-get-it 
+
+
+From Mohamed Hasan:
+
+Here is the GitHub link for the paper https://github.com/hadley/tidy-data  (Links to an external site.)
+
+ 
+
+There is also this video (https://vimeo.com/33727555) where the author explained well about Tidy Data.
+
+ 
+
+Also his other
+video (https://www.youtube.com/watch?v=TaxJwC_MP9Q)
+about tidy tools like ggplot, plyr, reshape, etc
+
+
+

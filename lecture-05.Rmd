@@ -1,0 +1,31 @@
+---
+title: "Lecture 5"
+---
+
+### Lecture handout:  
+chp4-handout.pdf (continuing after normal distributions)
+
+### Lecture slides (w/ answers): 
+chp4.pdf
+
+###Textbook: 
+Chapter 4: Distributions of Random Variables
+
+### R topics:
+
+#### adding a column: 
+```{r eval=FALSE}
+x$newCol <- newData
+```
+
+####charts
+```{r eval=FALSE}
+hist(age, freq=F)
+mean(age)
+sd(age)
+lines(1:100, dnorm(1:100, 45,17))
+rug(jitter(age,1))
+pie(table(genhlth))
+boxplot(age ~ genhlth)
+barplot(table(genhlth))
+```

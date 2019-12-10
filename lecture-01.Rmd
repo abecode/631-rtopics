@@ -1,0 +1,48 @@
+---
+title: "Lecture 1"
+---
+
+### Lecture handout: 
+
+chp1-handout.pdf
+
+### Lecture slides (w/ answers): 
+
+chp1.pdf
+
+### Textbook: 
+
+Chapter 1 and 2: Introduction to Data and Summarizing Data
+
+### R skills:
+
+* Installing and running RStudio
+* Getting help
+* Invoking commands (functions)
+* getting help about functions
+```{r eval=FALSE}
+demo(graphics)
+```
+* clearing the global environment
+```{r eval=FALSE}
+rm(list = ls())
+```
+* R Markdown
+```{r eval=FALSE}
+tinytex::install_tinytex()
+```
+* Installing packages
+```{r eval=FALSE}
+install.packages("openintro")
+library(openintro)
+```
+* Listing data
+```{r eval=FALSE}
+data()
+data(county)
+loan50 <- source("https://www.openintro.org/stat/data/R/loan50.R")[1]
+```
+* exiting
+```{r eval=FALSE}
+# quit(), q(), or just use the menu
+```

@@ -1,0 +1,53 @@
+---
+title: "Lecture 3"
+---
+
+### Lecture handout: 
+
+chp3-handout.pdf
+
+### Lecture slides (w/ answers): 
+
+chp3.pdf
+
+### Textbook: 
+
+Chapter 3: Probability
+
+### R Topics:
+
+* Base R http://github.com/rstudio/cheatsheets/raw/master/base-r.pdf
+* lists
+
+```{r eval=FALSE}
+?list
+typeof(present) # data from hw1
+```
+
+* list indexing: `present[1]`, `present[1,2]`
+    
+* single vs. double angle brackets
+    
+* sequential list generation `x<-1:10`
+    
+* `length(x)`
+    
+* `names(present)`
+
+* attach, detach
+```{r eval=FALSE}
+present$boys 
+boys
+attach(present)
+girls
+search
+detach(present)
+girls
+```
+* reading and writing csv data
+```{r eval=FALSE}
+write.csv(present, file="present.csv")
+present2 <- read.csv(file="present.csv")
+?read.csv
+```
+* loading and saving rdata: `load()` and `save()`

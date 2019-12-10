@@ -1,0 +1,84 @@
+---
+title: "Lecture 12"
+---
+
+
+### Lecture handout: 
+chp8-handout.pdf
+
+### Lecture slides (w/ answers): 
+chp8.pdf
+
+### Textbook: 
+Chapter 8, Intro to Regression
+
+### R Topics:
+
+#### generating data for ANOVA
+```{r}
+x <- c(rep("a",25),rep("b",25),rep("c",25),rep("d",25))
+y <- c(rnorm(25,5,10),rnorm(25,10,10),rnorm(25,15,10),rnorm(25,20,20))
+yhat <- c(rep(5,25),rep(10,25),rep(15,25),rep(20,25))
+res <- yhat - y
+ssres <- sum(res^2)
+anova(aov(y~x)) # why is sum squared residuals not the same in anova(aov()) as ssres?
+ssgroup <- sum(25 * (mean(y[1:25])-mean(y))^2 + 25 * (mean(y[26:50])-mean(y))^2 + 25*(mean(y[51:75])-mean(y))^2 + 25*(mean(y[76:100])-mean(y))^2)
+sstot <- sum((y-mean(y))^2)
+```
+
+#### residual plot
+```{r}
+eruption.lm <- lm(eruptions ~ waiting, data=faithful)
+summary(eruption.lm)
+yhat <- eruption.lm$coefficients["(Intercept)"] + faithful$waiting * eruption.lm$coefficients["waiting"] 
+head(yhat)
+head(eruption.lm$fitted.values)
+head(model.matrix(eruption.lm))
+eruption.res <- resid(eruption.lm)
+plot(faithful$waiting, eruption.res, ylab="Residuals", xlab="Waiting Time", main="Old Faithful Eruptions")
+abline(0, 0)
+par(mfrow = c(2, 1))
+par(mar=c(1,1,1,1))
+plot(faithful$waiting, faithful$eruptions)
+lines(faithful$waiting, predict(eruption.lm),col="red")
+# or abline(lm(eruptions~waiting, data=faithful), col="red")
+plot(faithful$waiting, eruption.res)
+abline(0,0, col="red")
+dev.off() # resets the graphics parameters, par()
+```
+#### R^2
+```{r}
+x <- faithful$waiting
+xbar <- mean(x)
+y <- faithful$eruptions
+ybar <- mean(y)
+R <- 1/(272-1) * sum( (x - xbar)/sd(x) * (y - ybar) / sd(y) ) # forumla from footnote p. 310
+R^2
+yhat <- eruption.lm$coefficients["(Intercept)"] + faithful$waiting * eruption.lm$coefficients["waiting"] 
+res <- y - yhat
+SSE<-sum(res^2)
+SST<-sum((y-yhat)^2)
+1 - SSE/SST # a way to calculate R^2
+```
+
+
+#### confidence interval for slope
+```{r eval=FALSE}
+dft <- length(faithful$waiting)-2 # degrees of freedom
+z <- qt(.975, df) # note, this is close to qnorm(.975) b/c of high df
+c(qt(.025, df), qt(.975, df)) # +- critical value
+summary(eruption.lm) # slope is 0.075628, SE of slope is 0.002219
+0.002219*c(qt(.025, df), qt(.975, df)) # margin of error
+0.075628 + 0.002219*c(qt(.025, df), qt(.975, df))
+# also can get the slope and standard error of slope like this
+summary(eruption.lm)$coefficients[2,1]
+summary(eruption.lm)$coefficients[2,2]
+```
+
+#### Additional info 
+
+(this material will not be tested, just  FYI):
+
+Deriving slope and intercept formulas: these formulas are  given  in  the  book but not derived.  The derivation involves some basic calculus.  Both videos cover more or less the same information but the first is a bit clearer while the second gets into linear algebra.
+Youtube video 1: https://www.youtube.com/watch?v=jqoHefiIf9U
+Linear Regression: https://www.youtube.com/watch?v=DSQ2plMtbLc

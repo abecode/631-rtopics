@@ -1,0 +1,52 @@
+---
+title: "Lecture 4"
+---
+
+### Group activity: 
+given the homework and the R topics so far:
+* what are your uncertainties and confusions?
+* what have you discovered (or known from past experiences) outside what we have covered in class that you can share with others?
+
+### Lecture handout: 
+chp3-handout.pdf (continued from variance of linear combinations of random variables) and chp4-handout.pdf
+
+### Lecture slides (w/ answers): 
+chp3.pdf
+chp4.pdf
+
+### Textbook: 
+
+Chapter 3: Probability, Chapter 4: Distributions of Random Variables
+
+### R Topics:
+
+```{r eval=FALSE}
+length() #vs sum()
+mean(), sd(), var()
+which, subset
+range
+labels for graphs: plot(..., main="main title", sub="subtitle", xlab="x-label", ylab="y-label")
+```
+
+
+#### rmarkdown chunk parameters:
+```
+echo=TRUE (default)/FALSE: whether to show the code in the output document, or not 
+eval=TRUE (default)/FALSE: whether to run the code or not , 
+tidy=FALSE (default/TRUE: whether to tidy the code
+results='markup' (default): 
+results=hide: show only figures
+results=asis: put the results into rmarkdown instead of the output document
+results=hold: show the results after all the code in the block
+```
+for more info see https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf 
+ 
+#### probability distribution functions
+```
+rnorm, dnorm, qnorm, pnorm
+rgeom, dgeom, qgeom, pgeom
+rbinom, dbinom, qbinom, pbinom
+{r,d,q,p}nbinom
+{r,d,q,p}pois
+choose, lchoose
+```

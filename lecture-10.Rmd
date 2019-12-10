@@ -1,0 +1,47 @@
+---
+title: "Lecture 10"
+---
+
+
+### Lecture handout:  
+chp6-handout.pdf
+chp7-handout.pdf
+
+### Lecture slides (w/ answers):  
+chp6.pdf
+chp7.pdf
+
+### Textbook: 
+Chapter 6, Inference for Categorical Data, Chapter 7, Inference for Numerical Data
+
+### R Topics:
+
+#### X^2 distribution
+```{r eval=FALSE}
+x <- seq(0,20, by=.1)
+df <- data.frame(x=x, y1=dchisq(x, 1), y2=dchisq(x,2), y3=dchisq(x,3))
+ggplot(df) + geom_line(aes(x=x,y=y1), color="steelblue1") + geom_line(aes(x=x,y=y2), color="steelblue2") + geom_line(aes(x=x,y=y3), color="steelblue3") 
+```
+
+#### t-distribution
+```{r eval=FALSE}
+x<-seq(-4,4,by=.1)
+df<-data.frame(x=x, ynorm=dnorm(x), yt1=dt(x,1), yt2=dt(x,2), yt3=dt(x,3))
+ggplot(df) + geom_line(aes(x=x,y=ynorm)) + geom_line(aes(x=x,y=yt1)) + geom_line(aes(x=x,y=yt2)) + geom_line(aes(x=x,y=yt3))
+ggplot(df) + geom_line(aes(x=x,y=ynorm), color="red") + geom_line(aes(x=x,y=yt1), color="grey80") + geom_line(aes(x=x,y=yt2), color="gray50") + geom_line(aes(x=x,y=yt3), color="gray20")
+```
+
+http://sape.inf.usi.ch/quick-reference/ggplot2/colour 
+https://github.com/tidyverse/googlesheets4 
+```{r eval=FALSE}
+install.packages("googlesheets4")
+library(googlesheets4)
+url <- "https://docs.google.com/spreadsheets/d/1Le_A8n8LUNnPUQvdawnMw1ULmdLiuLaV-XPABvZFIGg"
+exam <- read_sheet(url)
+names(exam)
+exam$`1a`
+for(name in names(exam)){
+  print(name)
+  print(sum(exam[[name]][!is.na(exam[name])]==0)/length(exam[[name]][!is.na(exam[name])]))
+}
+```

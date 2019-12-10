@@ -1,0 +1,42 @@
+---
+title: "Lecture 6"
+---
+
+### Midterm Review Study Guide: 
+
+https://stthomas.instructure.com/courses/26819/files/1928697/download?wrap=1
+
+
+### Lecture handout: 
+chp5-handout.pdf
+
+### Textbook: 
+Chapter 5, Foundations for Inference
+
+### R topics:
+
+#### models
+```{r eval=FALSE}
+plot(age ~ genhlth)
+#y ~ x can be read "model y in terms of x"
+plot(age ~ ., data=cdc)
+plot(genhlth ~ ., data=cdc)
+as.factor()
+```
+
+#### ggplot2
+https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf 
+this is one library in the "tidyverse" https://r4ds.had.co.nz
+we'll be reading the Tidy Data paper after the midterm
+
+```{r eval=FALSE}
+install.packages("ggplot2")
+library(ggplot2)
+ggplot(kobe) + geom_bar(aes(x=basket))
+ggplot(kobe) + geom_bar(aes(x=basket, fill=basket))
+ggplot(kobe) + geom_bar(aes(x=basket, fill=basket)) + scale_fill_manual(values=c("#009900", "#990000"))
+ggplot(cdc) + geom_histogram(binwidth=1, aes(x=age))
+ggplot(cdc) + geom_histogram(binwidth=1, aes(x=age))
+ggplot(cdc) + geom_histogram(binwidth=1, aes(x=age, y=..density..)) + geom_line(data=data.frame(x=1:100, y=dnorm(1:100, 45, 17)), aes(x=x, y=y))
+#vs. hist(age, freq=F); lines(1:100, dnorm(1:100, 45,17))
+```

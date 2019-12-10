@@ -1,0 +1,58 @@
+---
+title: "Lecture 9"
+---
+
+### Lecture handout: 
+chp5-handout.pdf, chp6-handout.pdf
+
+
+### Lecture slides (w/ answers): 
+chp5_r1.pdf, chp6.pdf
+
+### Textbook: 
+Chapter 5, Foundations for Inference, Chapter 6, Inference for Categorical Data
+
+### R Topics:
+
+#### User input
+
+```{r eval=FALSE}
+readline(prompt="Please, enter your sequence number: ")
+```
+
+#### Functions
+```{r eval=FALSE}
+readinteger <- function(){
+  n <- readline(prompt="Please, enter your sequence number: ") 
+  as.integer(n)
+}
+```
+Explicit "return()" command is is optional: by default, the last line is returned.
+
+#### Loops: 
+
+in R, use loops sparingly b/c most functions can handle multiple/list/vector inputs (i.e. "vectorization")
+
+``` for, while, repeat```
+
+```for(sequence) {body}```
+
+* loop over the elements: ```for (x in xs)```
+* loop over the numeric indices: ```for (i in seq_along(xs))```
+* loop over the names: ```for (nm in names(xs))```
+
+```while(condition) {body}```
+
+```repeat {body}```
+
+```break, next```
+
+For more info: https://www.datacamp.com/community/tutorials/tutorial-on-loops-in-r (Links to an external site.)
+
+graphics parameters:
+```par(mfrow = c(3, 1))```
+
+### comments
+
+From Jessie Zheng:
+The One hot Encoder that we talked about in class was really useful in machine learning. I found a good article talks about label encoder vs. one hot encoder. Just want to share: https://medium.com/@contactsunny/label-encoder-vs-one-hot-encoder-in-machine-learning-3fc273365621

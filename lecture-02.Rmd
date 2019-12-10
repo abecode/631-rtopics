@@ -1,0 +1,35 @@
+
+
+### Lecture handout: 
+
+chp2-handout.pdf
+
+### Lecture slides (w/ answers): 
+
+chp2.pdf
+
+### Textbook: 
+
+Chapter 2, Summarizing Data
+
+
+### R skills:
+
+* assignment ` {r eval=FALSE} <-, =, <<- `
+
+    * use `<-` for assignment,`=` for keyword arguments, and `<<-` is used for assignment outside of the current environment, e.g. in function definitions
+    
+    * `=` can be used for assignment but it's best to use `<-`
+
+* environments
+``` {r eval=FALSE}
+environment() 
+# vs environment(rnorm)
+search()
+library(openintro) # cars  vs datasets::cars
+list.files() 
+getwd() 
+setwd()
+```
+* rmarkdown
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet

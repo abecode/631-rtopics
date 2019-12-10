@@ -1,0 +1,134 @@
+---
+title: "Lecture 13"
+---
+
+
+### Lecture handout: 
+chp9-handout.pdf
+
+### Textbook: 
+Chapter 9: Multiple and Logistic Regression
+
+
+### R Topics
+
+#### generating a regression problem
+```{r}
+# first generate x, explanatory variable
+x <- rnorm(100, mean=50, sd=25)
+
+# set population slope and intercept
+B0 <- 100
+B1 <- -10
+
+# generate error/residuals
+err <- rnorm(100, mean=0, sd=100)
+
+# finally generate y, response variable
+y <- B0 + B1*x + err
+
+# now find the sample estimates
+R <- cor(x,y)
+b1 <- cor(x,y)*sd(y)/sd(x)
+# or
+b1 <- lm(y~x)$coefficients['x']
+# solve for intercept given slope and mean(x), mean(y)
+b0 <- -b1*mean(x)+mean(y)
+# or 
+b0 <- lm(y~x)$coefficients['(Intercept)']
+
+# predicted y values
+yhat <- b0 + b1*x
+# base R plot
+plot(x,y)
+lines(x,yhat)
+# ggplot2 plot
+library(ggplot2)
+ggplot(data.frame(x=x,y=y,yhat=yhat)) + geom_point(aes(x=x,y=y), alpha = .2) + geom_line(aes(x=x,y=yhat))
+ggplot(data.frame(x=x,y=y,yhat=yhat,err=err)) + geom_point(aes(x=x,y=y,alpha=abs(err))) + geom_line(aes(x=x,y=yhat))
+ggplot(data.frame(x=x,y=y,yhat=yhat,err=err)) + geom_point(aes(x=x,y=y,alpha=abs(err))) + geom_line(aes(x=x,y=yhat)) + geom_segment(aes(x=x, y=y, xend=x, yend=yhat, alpha=abs(err) )) 
+
+# examine SStot, SSreg, SSerr
+SStot <- var(y)
+SSreg <- var(yhat)
+SSerr <- var(y-yhat)
+SStot == SSreg + SSerr # not exact
+all.equal(SStot, SSreg + SSerr) # TRUE
+# R^2 equalities
+all.equal(R^2, 1 - SSerr/SStot)
+all.equal(R^2, SSreg/SStot)
+```
+
+#### Extra discussion on correlation and covariance
+```{r}
+all.equal(cor(x,y), cov(x,y)/sd(x)/sd(y))
+```
+
+recall variance 
+
+LaTeX: $var\left(x\right) =\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})^2 $
+v a r ( x ) = 1 n − 1 ∑ i = 1 n ( x i − x ¯ ) 2
+
+we can rewrite this using expectations (E[]):
+
+LaTeX: var\left(x\right) = \frac{1}{n-1}\sum_{i=1}^{n}(x_i-E[x])^2 \\
+var\left(x\right) = E\left[(x_i-E[x])^2\right] \\
+var\left(x\right) = E\left[ x^2 -xE[x] -E[x]x + E[x]^2 \right] \\
+var\left(x\right) = E[ x^2] -E[x]E[x] -E[x]E[x] + E[x]^2 \\
+ var\left(x\right) = E[ x^2] -E[x]^2  \\ 
+ 
+v a r ( x ) = 1 n − 1 ∑ i = 1 n ( x i − E [ x ] ) 2 v a r ( x ) = E [ ( x i − E [ x ] ) 2 ] v a r ( x ) = E [ x 2 − x E [ x ] − E [ x ] x + E [ x ] 2 ] v a r ( x ) = E [ x 2 ] − E [ x ] E [ x ] − E [ x ] E [ x ] + E [ x ] 2 v a r ( x ) = E [ x 2 ] − E [ x ] 2
+```{r}
+var(x)
+sum(x^2 - mean(x)^2)/(length(x)-1)
+```
+Covariance  
+
+LaTeX: cov\left(x,y\right) = \frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y}) 
+
+c o v ( x , y ) = 1 n − 1 ∑ i = 1 n ( x i − x ¯ ) ( y i − y ¯ )
+
+we can rewrite this using expectations (E[]):
+
+LaTeX: var\left(x\right) = \frac{1}{n-1}\sum_{i=1}^{n}(x_i-E[x])(y_i-E[y]) \\
+var\left(x\right) = E\left[(x_i-E[x])(y_i-E[y])\right] \\
+var\left(x\right) = E\left[ xy -xE[y] -E[x]y + E[x]E[y] \right] \\
+var\left(x\right) = E[ xy] -E[x]E[y] -E[x]E[y] + E[x]E[y] \\
+ var\left(x\right) = E[ xy] -E[x]E[y]  \\ 
+ 
+v a r ( x ) = 1 n − 1 ∑ i = 1 n ( x i − E [ x ] ) ( y i − E [ y ] ) v a r ( x ) = E [ ( x i − E [ x ] ) ( y i − E [ y ] ) ] v a r ( x ) = E [ x y − x E [ y ] − E [ x ] y + E [ x ] E [ y ] ] v a r ( x ) = E [ x y ] − E [ x ] E [ y ] − E [ x ] E [ y ] + E [ x ] E [ y ] v a r ( x ) = E [ x y ] − E [ x ] E [ y ]
+
+```{r}
+cov(x,y)
+sum(x*y - mean(x)*mean(y))/(length(x)-1)
+# covariance and correlation as matrices
+X <- matrix(cbind(x,y),ncol=2)
+
+# covariance
+cov(x,y)
+cov(X)
+var(X)
+N <- dim(X)[1]
+Xmean <- matrix(rep(colMeans(X),N),nrow=N, byrow=T)
+Xc <- X - Xmean # a "centered" version of X
+S <- t(Xc) %*% (Xc) /(N-1) # covariance via multiplying centered matrix w/ itself
+S
+
+# correlation 
+cor(x,y)
+cor(X)
+Xsd <- matrix(rep(sqrt(diag(S)),N),nrow=N, byrow=T) # the sd of each column of X repeated N times
+Xs <- Xc/Xsd # a "scaled" and centered version of X
+(t(Xs) %*% Xs) / (N-1)
+```
+
+version control and projects
+* saving your workspace as various types of projects (project, package, shiny webapp, various R+cpp formats, and RMarkdown website) via File->New Project 
+* loading experimental code libraries with
+```devtools::install_github("r-lib/devtools")```
+# instead of
+```install.packages("devtools")```
+ 
+pairs plot
+http://www.sthda.com/english/wiki/scatter-plot-matrices-r-base-graphs 
+https://www.r-bloggers.com/scatterplot-matrices-pair-plots-with-cdata-and-ggplot2/ 
