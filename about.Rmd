@@ -1,0 +1,5 @@
+---
+title: "About This Website"
+---
+
+This is the R topics we covered in class, the same as in Canvas, but in RMarkdown format to show the Git and RStudio project functionality.
