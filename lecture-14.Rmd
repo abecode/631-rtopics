@@ -5,7 +5,7 @@ title: "Lecture 14"
 
 ### R topics
 
-####diamonds dataset
+#### diamonds dataset
 ```{r eval=FALSE}
 data("diamonds")
 lm(formula = price ~ ., data = diamonds)
@@ -23,7 +23,7 @@ bwd.model <- step(max.model, direction='backward', scope=formula(max.model))
 step.model <- step(min.model, direction='both', scope=formula(max.model))
 ```
 
-####Logistic regression
+#### Logistic regression
 ```{r}
 p <- seq(0,1,by=.01)
 y <- log(p/(1-p))
