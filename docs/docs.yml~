@@ -1,5 +1,4 @@
 name: "631-rtopics"
-output_dir: "docs"
 navbar:
   title: "631"
   left:
