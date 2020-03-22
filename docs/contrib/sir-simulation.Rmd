@@ -1,0 +1,76 @@
+---
+title: "SIR Model simulation"
+author: "Abe Kazemzadeh"
+date: "3/19/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Setup initial conditions
+
+```{r}
+N <- 100     # total population
+T <- 100.0     # maximum elapsed time
+t <- 0       # start time
+V <- 10.0     # spatial parameter, larger is more "social" distance
+alpha <- 4.0 # rate of infection after contact
+beta <- 2   # rate of cure
+n_I <- 1       # initial infected population
+n_R <- 0       # initial recovered population
+n_S <- N - n_I # compute susceptible population
+```
+
+# initialize lists
+```{r}
+times <- c(t)
+S <- c(n_S)
+I <- c(n_I)
+R <- c(n_R)
+```
+
+```{r}
+# Main loop
+start_time <- Sys.time()
+while(t<T) {
+  
+  if (n_I == 0) {
+    break
+  }
+  w1 <- alpha * n_S * n_I / V # v bigger => w1 smaller
+  w2 <- beta * n_I
+  W <- w1 + w2
+  dt <- -log(runif(1)) / W
+  t <- t + dt
+  
+  if (runif(1) < w1/W) {
+    n_S <- n_S - 1
+    n_I <- n_I + 1
+  } else {
+    n_I <- n_I - 1
+    n_R <- n_R + 1
+  }
+  # S[i] <- n_S
+  # I[i] <- n_I
+  # R[i] <- n_R
+  times <- c(times, t)
+  S <- c(S, n_S)
+  I <- c(I, n_I)
+  R <- c(R, n_R)
+}
+end_time <- Sys.time()
+```
+
+```{r}
+end_time - start_time
+sir_df <- data.frame(time=times, S=S, I=I, R=R)
+```
+
+
+```{r}
+library(ggplot2)
+ggplot(sir_df)+geom_line(aes(x=times,y=S), color="green")+geom_line(aes(x=times,y=I),color="red")+geom_line(aes(x=time,y=R),color="blue")
+```
+

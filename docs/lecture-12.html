@@ -328,6 +328,27 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Contributed
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="contrib/Extract_questions.py">extracting questions from hw</a>
+    </li>
+    <li>
+      <a href="contrib/questionextract-1.py">extracting questions from hw 2</a>
+    </li>
+    <li>
+      <a href="contrib/sir-simulation.html">SIR simulation</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://github.com/abecode/631-rtopics/tree/master/contrib">Contributed-Github Listing</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -370,9 +391,9 @@ anova(aov(y~x)) # why is sum squared residuals not the same in anova(aov()) as s
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: y
-##           Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
-## x          3  4281.5 1427.16   6.832 0.0003197 ***
-## Residuals 96 20053.8  208.89                      
+##           Df  Sum Sq Mean Sq F value   Pr(&gt;F)   
+## x          3  2539.8  846.60  5.6131 0.001373 **
+## Residuals 96 14479.3  150.83                    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre class="r"><code>ssgroup &lt;- sum(25 * (mean(y[1:25])-mean(y))^2 + 25 * (mean(y[26:50])-mean(y))^2 + 25*(mean(y[51:75])-mean(y))^2 + 25*(mean(y[76:100])-mean(y))^2)
