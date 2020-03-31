@@ -2,20 +2,24 @@
 title: "SIR Model simulation"
 author: "Abe Kazemzadeh"
 date: "3/19/2020"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Setup initial conditions
+# Setup initial conditions 
+
+
 
 ```{r}
 N <- 100     # total population
 T <- 100.0     # maximum elapsed time
 t <- 0       # start time
-V <- 10.0     # spatial parameter, larger is more "social" distance
+V <- 20.0     # spatial parameter, larger is more "social" distance
 alpha <- 4.0 # rate of infection after contact
 beta <- 2   # rate of cure
 n_I <- 1       # initial infected population
@@ -68,9 +72,22 @@ end_time - start_time
 sir_df <- data.frame(time=times, S=S, I=I, R=R)
 ```
 
-
 ```{r}
 library(ggplot2)
 ggplot(sir_df)+geom_line(aes(x=times,y=S), color="green")+geom_line(aes(x=times,y=I),color="red")+geom_line(aes(x=time,y=R),color="blue")
 ```
+
+```{r}
+# convert timestamp to calendar
+library(lubridate)
+sir_df$date<-as.Date(floor_date(ymd("2020-03-30")+seconds(31*24*60*60*sir_df$time), unit="day"))
+final_df <- subset(sir_df, select = -c(time))
+names(final_df) <- c("susceptible", "infected", "recovered", "date")
+final_df <- final_df %>% group_by(date) %>% filter(row_number(date) == max(row_number(date)))
+write_csv(final_df,"daily_infections.csv")
+write_csv(pivot_longer(final_df, cols = c("susceptible","infected","recovered"), names_to="infection state", values_to="population"), "daily_infections_tidy.csv")
+
+```
+
+
 
