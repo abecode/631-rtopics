@@ -1,0 +1,14 @@
+digraph d {
+  datatypes -> {numeric,categorical}
+  numeric -> {discrete, continuous}
+  categorical -> {ordinal, proportionbinomial, multinomial}
+  inference -> {confidenceinterval, hypothesistest}
+  inferencetypes ->  {numericinference, categoricalinference}
+  categoricalinference -> {proportionbinomial, chiquared}
+  chisquared -> multinomial
+  numbericinference -> {normaldistribution, tdistribution}
+  hypothesistest -> {onesided, twosided}
+  stats -> scientificmethod [dir="both"]
+  logic -> stats
+  probability -> stats
+}  
