@@ -38,3 +38,10 @@ Forking is a more advanced GitHub technique that will copy someone's repo to you
 * at the top right, select "Fork"" (after "Watch" and "Star")
 
 This will create the repo in your own account. Now, if you modify it, you'll be able to upload/write/"push" the changes to made to your own account. To do this first you will change a file.  When a file is changed, you'll then see an "M" next to the file in the Git tab in the top right window of RStudio.  Check "Staged" and then click "Commit".  Then you will add a message to describe your commit.  Then you'll click "Push" and then the commit (a specific snapshot) will be uploaded to your copy of the repo. 
+
+Our textbook and slides are also Github repos:
+
+* textbook https://github.com/OpenIntroStat/openintro-statistics
+* slides https://github.com/OpenIntroStat/openintro-statistics-slides
+
+You can try cloning or forking these and playing around with them.  They are more $\LaTeX$ than R, but you can use RStudio to open a .tex file and it will give you the option to "Compile PDF".  However, the pdfs are already checked into the repo so this isn't strictly necessary, just to show that RStudio is capable of generating the textbook and slides.
