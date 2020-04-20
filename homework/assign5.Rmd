@@ -236,13 +236,9 @@ I'm trying a different format for the homework this time.  The goals are to make
 
 - Recommendation: did you have an insight from the homework, find something useful in the book or on the web, or try some variation on the something in the homework?  Sharing this would be an example of a recommendation that you could post.
 
-- Summary: imagine someone outside the class who doesn't know muhc or anything about statistics (like your mom, your child, a neice or nephew, etc.).  Explain to them the main idea of the homework or a specific part of it.
+- Summary: imagine someone outside the class who doesn't know much or anything about statistics (like your mom, your child, a neice or nephew, etc.).  Explain to them the main idea of the homework or a specific part of it.
 
-<<<<<<< HEAD
 Make sure that your question, response, recommendation, or learning summary is on the topics in the homework, especially if you just do one post (if you do more than one post, feel free to take more leeway on the later posts).  On-topic subjects can include RMarkdown and GitHub as well as the theoretical topics.  Use the subject "hw5 <type>, <blurb>"  where <type> is "question", "response", "recommendation", or "summary" and <blurb> is a brief description.
-=======
-Make sure that your question, response, recommendation, or learning summary is on the topics in the homework, especially if you just do one post (if you do more than one post, feel free to take more leeway on the later posts).  Use the subject "hw5 <type>, <blurb>"  where <type> is "question", "response", "recommendation", or "summary" and <blurb> is a brief description.
->>>>>>> 645e68d4f146eb00f85d05082ccf53c9eb958c8b
 
 Submit the link(s) to the discussion post that you created or commented on.
 
