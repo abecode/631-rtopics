@@ -21,7 +21,7 @@ This Markdown file is part of a Git repository (repo) which is stored on GitHub.
 GitHub repos can be loaded ("cloned") as a project in RStudio, but we need to set up RStudio:
 
 * First [install git first](https://cfss.uchicago.edu/setup/git/).
-* Then [make sure that RStudio can use git](https://cfss.uchicago.edu/setup/git-with-rstudio/)
+* (this step is optional--come here to trouble shoot) [make sure that RStudio can use git](https://cfss.uchicago.edu/setup/git-with-rstudio/)
 * In RStudio go to File -> New Project ... -> Version Control -> Git
   * for repository url put "https://github.com/abecode/631-rtopics"
   * for project directory name put "clone-of-631-rtopics" (this you
