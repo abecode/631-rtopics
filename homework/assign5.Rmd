@@ -195,8 +195,8 @@ Go through each line of `plot_ci` and briefly describe what it does.  Use the li
 Depending on your data collection, it may be hard to get a sample of size 60. One issue we will have if we have smaller sample is that we will need to use the Student's t-distribution.  The sample standard deviation in particular is the calculation that will require the t-distribution because the t-distribution has "fatter tails" when the degrees-of-freedom parameter is low.  Let's say we have a sample of size 15.  If we want to find the critical values for 95\% confidence level using a 14 degrees-of-freedom t-distribution ($df=n-1$), we would use $t^*=2.14$ instead of $z^*=1.96$
 
 ```{r}
-qt(.025, 19)
-qt(.975, 19)
+qt(.025, 14)
+qt(.975, 14)
 ```
 
 To show this, let's rerun our earlier simulation with $n=15$ instead of $60$:
