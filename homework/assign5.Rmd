@@ -226,6 +226,28 @@ How many confidence intervals do not contain the true population mean now?
 We can see that the small sample size statistically led to more intervals that did not contain the population mean. Use the t-distribution to find critical values and then re-run the simulation and see if it fixes the problem, i.e. fewer intervals that do not contain the population mean.
 
 
+```{r}
+
+samp_mean <- rep(NA, 50)
+samp_sd <- rep(NA, 50)
+n <- 15
+set.seed(123)
+for(i in 1:50){
+samp <- sample(population, n)           # obtain a sample of size n = 15 from the population
+samp_mean[i] <- mean(samp)             # save sample mean in ith element of samp_mean
+samp_sd[i] <- sd(samp)                           # save sample sd in ith element of samp_sd
+}
+lower <- samp_mean - 2.14 * samp_sd/sqrt(n)
+upper <- samp_mean + 2.14 * samp_sd/sqrt(n)
+c(lower[1], upper[1])
+plot_ci(lower, upper, mean(population))
+
+```
+
+** It looks like 6 intervals don't include the population mean **
+
+
+
 # Submission
 
 I'm trying a different format for the homework this time.  The goals are to make you more familiar with RMarkdown, get a taste of GitHub, to learn from peers, and to get specific feedback more rapidly. To try to achieve this, the new format is to create one or more discussion posts related to the homework. The constraints of the post are as follows.  You should post at least once and your post should be categorized into one of the following categories:
