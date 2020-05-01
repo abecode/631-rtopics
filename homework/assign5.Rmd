@@ -207,7 +207,7 @@ samp_sd <- rep(NA, 50)
 n <- 15
 set.seed(123)
 for(i in 1:50){
-   samp <- sample(population, n)  # obtain a sample of size n = 60 from the population
+   samp <- sample(population, n)  # obtain a sample of size n from the population
    samp_mean[i] <- mean(samp)     # save sample mean in ith element of samp_mean
    samp_sd[i] <- sd(samp)         # save sample sd in ith element of samp_sd
 }
