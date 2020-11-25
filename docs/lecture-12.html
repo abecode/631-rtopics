@@ -394,9 +394,9 @@ anova(aov(y~x)) # why is sum squared residuals not the same in anova(aov()) as s
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: y
-##           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
-## x          3   7624 2541.34  14.073 1.123e-07 ***
-## Residuals 96  17336  180.58                      
+##           Df  Sum Sq Mean Sq F value   Pr(&gt;F)   
+## x          3  1938.7  646.23   4.794 0.003723 **
+## Residuals 96 12940.8  134.80                    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre class="r"><code>ssgroup &lt;- sum(25 * (mean(y[1:25])-mean(y))^2 + 25 * (mean(y[26:50])-mean(y))^2 + 25*(mean(y[51:75])-mean(y))^2 + 25*(mean(y[76:100])-mean(y))^2)

@@ -3,6 +3,7 @@ title: "A Brief Tour of the Tidyverse with Simulated Covid Data"
 author: "Abe Kazemzadeh"
 date: "11/3/2020"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 ---
@@ -73,7 +74,7 @@ class(as.data.frame(sir_tibble))
 
 The pipe operator `%>%` is one of the innovations of the Tidyverse.  It captures the idea that tidy tools should take tidy data as input and return tidy data as output. Thus everything flowing through such a pipe is tidy.  The `magrittr` library is the library that provides the pipe operator (named after the Belgian painter Rene Magritte, who is famous for his painting of a pipe with the caption, "this is not a pipe").
 
-```{r, echo=FALSE, fig.align = "center", out.width="90%"}
+```{r,fig.align = "center", out.width="90%"}
 knitr::include_graphics("MagritteTreacheryOfImages.jpg")
 ```
 
@@ -157,6 +158,46 @@ Just specifying the columns results in new columns labelled "name" and "value". 
 sir_tibble %>% 
   pivot_longer(cols=c("susceptible", "infected","recovered"), 
                names_to = "disease_state", values_to = "count")
+```
+
+
+## Plotting with Ggplot
+
+The first library we saw in the Tidyverse was `ggplot2`.  We've seen a couple of examles where it helps to have data in a tidy format to make it easier to plot.  Just to make sure we remember, let's try to plot the messy table before it was "melted":
+
+```{r}
+library(ggplot2)
+ggplot(sir_tibble, aes(x=date)) + 
+  geom_line(aes(y=susceptible), color="green") +
+  geom_line(aes(y=infected), color="red") +
+  geom_line(aes(y=recovered), color="blue")
+```
+
+Remember that the theory behind ggplot involves mapping data variables to visual variables using the `aes` aesthetic mapping. Note that the color setting is outside of the `aes` aesthetic mapping and the `x` visual variable is set in the `ggplot` command so that it will be a default across the following `geom_line` commands.
+
+The benefit of the tidy approach is that we will be able to use color as a visual variable for the `disease_state` data variable, so the ggplot command will only require one `geom_line` command.  I'm going to use the `magritter` pipes to show how commands may be chained together.
+
+```{r}
+sir_tibble %>%
+  pivot_longer(cols=c("susceptible", "infected","recovered"), 
+               names_to = "disease_state", values_to = "count") %>%
+  ggplot(aes(x=date)) + 
+  geom_line(aes(y=count,
+                color=disease_state))
+  
+```
+
+
+Notice now the colors are assigned automatically and there's a legend included automatically as well.  To get exactly the same colors we had before we can do the following:
+
+```{r}
+sir_tibble %>%
+  pivot_longer(cols=c("susceptible", "infected","recovered"), 
+               names_to = "disease_state", values_to = "count") %>%
+  ggplot(aes(x=date)) + 
+  geom_line(aes(y=count,
+                color=disease_state)) +
+  scale_color_manual(values=c("red", "blue", "green"))
 ```
 
 
