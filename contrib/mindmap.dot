@@ -6,9 +6,11 @@ digraph d {
   inferencetypes ->  {numericinference, categoricalinference}
   categoricalinference -> {proportionbinomial, chiquared}
   chisquared -> multinomial
-  numbericinference -> {normaldistribution, tdistribution}
+  numbericinference -> {singlesamplettest, twosamplettest, anova }
   hypothesistest -> {onesided, twosided}
   stats -> scientificmethod [dir="both"]
   logic -> stats
   probability -> stats
+  distributions -> {normal, bernoulli, binomial, geometric, negativebinomial, poisson, chisquared, F, logistic}
+  # expoential, hypergeometric/negative hypergeometric
 }  

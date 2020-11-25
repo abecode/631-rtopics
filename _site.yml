@@ -45,5 +45,7 @@ navbar:
           href: "contrib/questionextract-1.py"
         - text: "SIR simulation"
           href: "contrib/sir-simulation.html"
+        - text: "A Brief Tour of the Tidyverse with Simulated Covid Data"
+          href: "contrib/tidy_covid.html"
     - text: "Contributed-Github Listing"
       href: https://github.com/abecode/631-rtopics/tree/master/contrib

@@ -344,6 +344,9 @@ $(document).ready(function () {
     <li>
       <a href="contrib/sir-simulation.html">SIR simulation</a>
     </li>
+    <li>
+      <a href="contrib/tidy_covid.html">A Brief Tour of the Tidyverse with Simulated Covid Data</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -420,7 +423,7 @@ SStot &lt;- var(y)
 SSreg &lt;- var(yhat)
 SSerr &lt;- var(y-yhat)
 SStot == SSreg + SSerr # not exact</code></pre>
-<pre><code>## [1] TRUE</code></pre>
+<pre><code>## [1] FALSE</code></pre>
 <pre class="r"><code>all.equal(SStot, SSreg + SSerr) # TRUE</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <pre class="r"><code># R^2 equalities
@@ -439,9 +442,9 @@ all.equal(R^2, 1 - SSerr/SStot)</code></pre>
 <p>LaTeX: var(x) = _{i=1}<sup>{n}(x_i-E[x])</sup>2 \ var(x) = E)^2] \ var(x) = E-E[x]x + E[x]^2 ] \ var(x) = E[ x^2] -E[x]E[x] -E[x]E[x] + E[x]^2 \ var(x) = E[ x^2] -E[x]^2 \</p>
 <p>v a r ( x ) = 1 n − 1 ∑ i = 1 n ( x i − E [ x ] ) 2 v a r ( x ) = E [ ( x i − E [ x ] ) 2 ] v a r ( x ) = E [ x 2 − x E [ x ] − E [ x ] x + E [ x ] 2 ] v a r ( x ) = E [ x 2 ] − E [ x ] E [ x ] − E [ x ] E [ x ] + E [ x ] 2 v a r ( x ) = E [ x 2 ] − E [ x ] 2</p>
 <pre class="r"><code>var(x)</code></pre>
-<pre><code>## [1] 768.8833</code></pre>
+<pre><code>## [1] 630.3939</code></pre>
 <pre class="r"><code>sum(x^2 - mean(x)^2)/(length(x)-1)</code></pre>
-<pre><code>## [1] 768.8833</code></pre>
+<pre><code>## [1] 630.3939</code></pre>
 <p>Covariance</p>
 <p>LaTeX: cov(x,y) = _{i=1}^{n}(x_i-{x})(y_i-{y})</p>
 <p>c o v ( x , y ) = 1 n − 1 ∑ i = 1 n ( x i − x ¯ ) ( y i − y ¯ )</p>
@@ -449,44 +452,44 @@ all.equal(R^2, 1 - SSerr/SStot)</code></pre>
 <p>LaTeX: var(x) = _{i=1}^{n}(x_i-E[x])(y_i-E[y]) \ var(x) = E)(y_i-E[y])] \ var(x) = E-E[x]y + E[x]E[y] ] \ var(x) = E[ xy] -E[x]E[y] -E[x]E[y] + E[x]E[y] \ var(x) = E[ xy] -E[x]E[y] \</p>
 <p>v a r ( x ) = 1 n − 1 ∑ i = 1 n ( x i − E [ x ] ) ( y i − E [ y ] ) v a r ( x ) = E [ ( x i − E [ x ] ) ( y i − E [ y ] ) ] v a r ( x ) = E [ x y − x E [ y ] − E [ x ] y + E [ x ] E [ y ] ] v a r ( x ) = E [ x y ] − E [ x ] E [ y ] − E [ x ] E [ y ] + E [ x ] E [ y ] v a r ( x ) = E [ x y ] − E [ x ] E [ y ]</p>
 <pre class="r"><code>cov(x,y)</code></pre>
-<pre><code>## [1] -7834.142</code></pre>
+<pre><code>## [1] -6364.82</code></pre>
 <pre class="r"><code>sum(x*y - mean(x)*mean(y))/(length(x)-1)</code></pre>
-<pre><code>## [1] -7834.142</code></pre>
+<pre><code>## [1] -6364.82</code></pre>
 <pre class="r"><code># covariance and correlation as matrices
 X &lt;- matrix(cbind(x,y),ncol=2)
 
 # covariance
 cov(x,y)</code></pre>
-<pre><code>## [1] -7834.142</code></pre>
+<pre><code>## [1] -6364.82</code></pre>
 <pre class="r"><code>cov(X)</code></pre>
-<pre><code>##            [,1]      [,2]
-## [1,]   768.8833 -7834.142
-## [2,] -7834.1416 90841.949</code></pre>
+<pre><code>##            [,1]     [,2]
+## [1,]   630.3939 -6364.82
+## [2,] -6364.8200 77095.08</code></pre>
 <pre class="r"><code>var(X)</code></pre>
-<pre><code>##            [,1]      [,2]
-## [1,]   768.8833 -7834.142
-## [2,] -7834.1416 90841.949</code></pre>
+<pre><code>##            [,1]     [,2]
+## [1,]   630.3939 -6364.82
+## [2,] -6364.8200 77095.08</code></pre>
 <pre class="r"><code>N &lt;- dim(X)[1]
 Xmean &lt;- matrix(rep(colMeans(X),N),nrow=N, byrow=T)
 Xc &lt;- X - Xmean # a &quot;centered&quot; version of X
 S &lt;- t(Xc) %*% (Xc) /(N-1) # covariance via multiplying centered matrix w/ itself
 S</code></pre>
-<pre><code>##            [,1]      [,2]
-## [1,]   768.8833 -7834.142
-## [2,] -7834.1416 90841.949</code></pre>
+<pre><code>##            [,1]     [,2]
+## [1,]   630.3939 -6364.82
+## [2,] -6364.8200 77095.08</code></pre>
 <pre class="r"><code># correlation 
 cor(x,y)</code></pre>
-<pre><code>## [1] -0.9373849</code></pre>
+<pre><code>## [1] -0.9129916</code></pre>
 <pre class="r"><code>cor(X)</code></pre>
 <pre><code>##            [,1]       [,2]
-## [1,]  1.0000000 -0.9373849
-## [2,] -0.9373849  1.0000000</code></pre>
+## [1,]  1.0000000 -0.9129916
+## [2,] -0.9129916  1.0000000</code></pre>
 <pre class="r"><code>Xsd &lt;- matrix(rep(sqrt(diag(S)),N),nrow=N, byrow=T) # the sd of each column of X repeated N times
 Xs &lt;- Xc/Xsd # a &quot;scaled&quot; and centered version of X
 (t(Xs) %*% Xs) / (N-1)</code></pre>
 <pre><code>##            [,1]       [,2]
-## [1,]  1.0000000 -0.9373849
-## [2,] -0.9373849  1.0000000</code></pre>
+## [1,]  1.0000000 -0.9129916
+## [2,] -0.9129916  1.0000000</code></pre>
 <p>version control and projects * saving your workspace as various types of projects (project, package, shiny webapp, various R+cpp formats, and RMarkdown website) via File-&gt;New Project * loading experimental code libraries with <code>devtools::install_github(&quot;r-lib/devtools&quot;)</code> # instead of <code>install.packages(&quot;devtools&quot;)</code></p>
 <p>pairs plot <a href="http://www.sthda.com/english/wiki/scatter-plot-matrices-r-base-graphs" class="uri">http://www.sthda.com/english/wiki/scatter-plot-matrices-r-base-graphs</a> <a href="https://www.r-bloggers.com/scatterplot-matrices-pair-plots-with-cdata-and-ggplot2/" class="uri">https://www.r-bloggers.com/scatterplot-matrices-pair-plots-with-cdata-and-ggplot2/</a></p>
 </div>

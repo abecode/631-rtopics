@@ -1,0 +1,176 @@
+---
+title: "A Brief Tour of the Tidyverse with Simulated Covid Data"
+author: "Abe Kazemzadeh"
+date: "11/3/2020"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+# this is an R chunk
+# "setup" is it's label/name
+# include=FALSE means that the chunk code won't be printed/included in the document
+# echo=TRUE means that by default, the chunk output will echoed to the document
+knitr::opts_chunk$set(echo =  TRUE)
+# the next line sets where to find the data file daily_infections.csv
+setwd("~/Downloads")
+```
+
+## Tidy Data
+
+In the Tidy Data paper, we saw kind of "domain language" for data preparation.  Domain languages like this help us express concepts which are otherwise clumsy and hard to express.  However, the terminology in the paper has changed over time as it has been implemented in the Tidyverse libraries, so it is important to understand the underlying concepts behind the terminology.
+
+We will explore the Tidyverse by loading each library separately, namely `readr`, `magrittr` `dplyr`, `tidyr`, and `ggplot2`.  In practice, you may simply load these and other Tidyverse libraries with `library(tidyverse)`. 
+
+If you haven't already, you should install the Tidyverse
+
+```{r, eval=FALSE}
+# note, eval=FALSE means that this is not evaluated in the normal knitting process
+# You should run this in the console
+install.packages("tidyverse")
+```
+
+## Reading Data
+
+So far we have been using `load()` to load RData files.  We've seen many examples where this contains a data table/frame and in the `kobe` dataset, we saw that it can also contain functions like `calc_streak()`.  We also saw some examples of `read.csv()` (base R) and `read_csv()`.  Now that we are learning about the Tidyverse, let's use the former. (Note: remember that the dot '.' naming convention correlates strongly with base-R code and underscores '_' correlates strongly with tidy-approach code). 
+
+In order to use `read_csv`, we first need to load the `readr` library.
+
+```{r}
+library(readr)
+```
+
+We need to set where to find the data file (you may omit the `setwd` line if the data file is in the same directory as this RMarkdown file).
+
+```{r}
+setwd("~/Downloads")
+sir_tibble <- read_csv("daily_infections.csv")
+```
+
+The output of the last chunk that is echoed is a specification of the data's columns, `susceptible`, `infected`, `recovered`, and `date`. These represent the number of susceptible, infected, and recovered people in a town of 100 people.
+
+The data is stored in the form of a "tibble", which is short for "tidy table".  When you type the name of the tibble, it will print a shortened version of the table, like we did with `head()` and a normal, base-R table  
+ 
+ ```{r}
+sir_tibble
+```
+
+If you want to convert back to a base-R table, you can run the following.  Note that this chunk has the option `eval=FALSE` so it won't show all the long output (50 rows)
+
+```{r, eval=FALSE}
+as.data.frame(sir_tibble)
+```
+
+Also, remember earlier in lecture we showed the object oriented class that the tibble and data frames are derived from.  The output for the tibble shows that it is an example of multiple inheritance.  If you don't know what that is, it's not super important for our purposes, but you can google it if you are curious.
+
+```{r}
+class(sir_tibble)
+class(as.data.frame(sir_tibble))
+```
+
+## "This is not a Pipe"
+
+The pipe operator `%>%` is one of the innovations of the Tidyverse.  It captures the idea that tidy tools should take tidy data as input and return tidy data as output. Thus everything flowing through such a pipe is tidy.  The `magrittr` library is the library that provides the pipe operator (named after the Belgian painter Rene Magritte, who is famous for his painting of a pipe with the caption, "this is not a pipe").
+
+```{r, echo=FALSE, fig.align = "center", out.width="90%"}
+knitr::include_graphics("MagritteTreacheryOfImages.jpg")
+```
+
+```{r}
+library(magrittr)
+```
+
+The idea is that you can "pipe" the date from one command to another. Recall from the paper that a "tidy" tool/function takes a data table/frame as an input and produces another table/frame as an output.  Thus, as long as each tool/function is "tidy" we can connect them together using the `magrittr` pipes. This is really just the same as calling functions with paretheses in base-R, but using pipes makes the flow of data clearer and solves the problem of having deeply nested parentheses that are hard to count.  For example, in the following command, the `sir_tibble` data frame is piped to the tidy function `summarize`, which returns a data frame with the summary columns (in this example, there is only one row in the data frame returned by `summarize`).  Summarize is in the `dplyr` library.
+
+```{r}
+library(dplyr)
+
+sir_tibble %>% summarize(n=n(), 
+                         start=min(date), 
+                         end=max(date), 
+                         population=max(susceptible, 
+                                        infected, 
+                                        recovered))
+```
+
+Note that I've added new-lines and indentation to keep the code clean.  The indentation should be mostly automatic when you use RStudio and hit return after a comma.
+
+The base-R way of calling this would simply give sir_table as an argument in the parentheses of `summarize`.  This is still pretty readable, but you can imagine with more nesting, the parentheses will get annoying and hard to read.
+
+
+```{r}
+summarize(sir_tibble, 
+          n=n(), 
+          start=min(date), 
+          end=max(date), 
+          population=max(susceptible, infected, recovered))
+```
+
+## Tidying the Data, the Base-R Way
+
+To Tidy the data, first we'll try the base-R way. We've seen this already a few times in the hands-on activities.
+
+```{r}
+# first duplicate the dates 3x
+dates_combined <- c(sir_tibble$date, 
+                    sir_tibble$date, 
+                    sir_tibble$date)
+
+# then "melt" the 3 people count columns
+counts_combined <- c(sir_tibble$susceptible, 
+                     sir_tibble$infected, 
+                     sir_tibble$recovered)
+
+# next create a disease state categorical variable
+n <- dim(sir_tibble)[1]
+disease_state <- c(rep("susceptible", n), 
+                   rep("infected", n), 
+                   rep("recovered", n))
+
+sir_tible_base_r_tidy <- tibble(date=dates_combined,
+                                disease_state=disease_state,
+                                count=counts_combined)
+```
+
+Now that the date is tidy, we can use functions like `group_by`, also in the `dplyr` library.
+
+```{r}
+sir_tible_base_r_tidy %>% 
+  group_by(disease_state)  %>% 
+  summarize(n=n(), start=min(date), end=max(date))
+```
+
+
+## Tidying with Tidyr
+
+Keeping with the approach in class, we've started with Base-R and moved on to Tidy R.  The `tidyr` library has tools to do this, namely `pivot_longer` (older versions of the library called it `melt` but as far as I can tell they have been moving from "cute" names to more "businessy" names).  `pivot_wider` would undo this transformation.
+
+```{r}
+library(tidyr)
+sir_tibble %>% pivot_longer(cols=c("susceptible", "infected","recovered"))
+```
+
+Just specifying the columns results in new columns labelled "name" and "value".  To give custom names:
+
+```{r}
+sir_tibble %>% 
+  pivot_longer(cols=c("susceptible", "infected","recovered"), 
+               names_to = "disease_state", values_to = "count")
+```
+
+
+## Back to Where We Started
+
+We can use the `tidyr` function `pivot_wider` to convert to our messy table with counts in three columns:
+
+```{r}
+sir_tibble %>% 
+  pivot_longer(cols=c("susceptible", "infected","recovered"), 
+               names_to = "disease_state", 
+               values_to = "count") %>% 
+  pivot_wider(names_from="disease_state", 
+              values_from="count")
+```
+
+

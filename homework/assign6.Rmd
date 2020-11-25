@@ -129,6 +129,12 @@ qqline(m1$residuals) # adds diagonal line to the normal prob plot
 
 **Based on the plot in (1-linearity), does the constant variability condition appear to be met?**
 
+# Extra Questions
+
+- Can you make an ANOVA model with this dataset?  Why or why not?
+- Can you make a multiple regression model with this dataset?
+- Look at other datasets (e.g., `data()` or by installing other libraries) and try to create a regression or ANOVA model.
+- Try to understand how `plot_ss` works.
 
 # Submission
 
